@@ -87,26 +87,31 @@ if question:
 
     st.session_state.messages.append(HumanMessage(content=question))
 
-    # Define system prompts
-    defined_prompts = {
-        "Assistent normal": "",
-        "Professor de programació": "Ets un professor de programació expert. Explica conceptes de forma clara i amb exemples pràctics.",
-        "Entrenador de voleibol": "Ets un entrenador de voleibol amb molta experiència. Dona consells tècnics, tàctics i motivacionals sobre voleibol. Explica jugades, tècniques i estratègies.",
-        "Expert en mitologia": "Ets un expert historiador especialitzat en mitologia grega. Explica mites, llegendes, déus i herois grecs amb detall i passió. Connecta les històries amb la cultura antiga.",
-        "Personalitzat": custom_prompt
-    }
-
-    # Apply system prompt
-    current_prompt = defined_prompts[system_prompt]
-    messages_with_system = st.session_state.messages.copy()
-
-    if current_prompt:
-        # Add system prompt at the beginning
-        messages_with_system.insert(0, SystemMessage(content=current_prompt))
-
-    response = chat_model.invoke(messages_with_system)
-
+    # Show assistant thinking with status updates
     with st.chat_message("assistant"):
+        status_placeholder = st.empty()
+        status_placeholder.info("🤔 Processant pregunta...")
+
+        # Define system prompts
+        defined_prompts = {
+            "Assistent normal": "",
+            "Professor de programació": "Ets un professor de programació expert. Explica conceptes de forma clara i amb exemples pràctics.",
+            "Entrenador de voleibol": "Ets un entrenador de voleibol amb molta experiència. Dona consells tècnics, tàctics i motivacionals sobre voleibol. Explica jugades, tècniques i estratègies.",
+            "Expert en mitologia": "Ets un expert historiador especialitzat en mitologia grega. Explica mites, llegendes, déus i herois grecs amb detall i passió. Connecta les històries amb la cultura antiga.",
+            "Personalitzat": custom_prompt
+        }
+
+        # Apply system prompt
+        current_prompt = defined_prompts[system_prompt]
+        messages_with_system = st.session_state.messages.copy()
+
+        if current_prompt:
+            messages_with_system.insert(0, SystemMessage(content=current_prompt))
+
+        status_placeholder.info("✨ Generant resposta...")
+        response = chat_model.invoke(messages_with_system)
+
+        status_placeholder.empty()  # Clear status
         st.markdown(response.content)
 
     st.session_state.messages.append(response)

@@ -1,11 +1,14 @@
 import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import AIMessage, HumanMessage
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configuración inicial
-st.set_page_config(page_title="Atenea", page_icon="🦉")
-st.title("🤖 Chatbot - paso 2 - con LangChain")
-st.markdown("Este es un *chatbot de ejemplo* construido con LangChain + Streamlit.")
+st.set_page_config(page_title="Atena", page_icon="🦉")
+st.title("Atena")
+st.markdown("Deessa de la saviesa, la guerra i els oficis.")
 
 chat_model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 

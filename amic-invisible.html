@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amic Invisible 🎁</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #a8dadc 0%, #457b9d 50%, #1d3557 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle snowflakes */
+        body::before {
+            content: '❄ ❄ ❄ ❄ ❄ ❄ ❄ ❄';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.15);
+            animation: snowfall 25s linear infinite;
+            letter-spacing: 120px;
+            text-align: center;
+        }
+
+        @keyframes snowfall {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* Container */
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 45px 40px;
+            max-width: 540px;
+            width: 100%;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 0.6s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Navigation tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px 14px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            position: relative;
+        }
+
+        .tab:hover {
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.1),
+                0 1px 3px rgba(0, 0, 0, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.4em;
+            margin-bottom: 8px;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.05em;
+        }
+
+        /* Form styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 1em;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+
+        select option {
+            background: #457b9d;
+            color: white;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        select:hover, input:hover, textarea:hover {
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 0 0 3px rgba(255, 255, 255, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px 24px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 100%);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            font-size: 1.05em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 12px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.25) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(0);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:disabled {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            cursor: not-allowed;
+            color: rgba(255, 255, 255, 0.5);
+            box-shadow: none;
+        }
+
+        /* Roulette */
+        .roulette-window {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            padding: 40px 20px;
+            margin: 24px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roulette-window::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 8s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .roulette-name {
+            font-size: 2.2em;
+            font-weight: 800;
+            color: white;
+            animation: spin 0.1s linear infinite;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes spin {
+            0% { opacity: 0; transform: translateY(-20px); }
+            50% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
+
+        /* Result */
+        .locked-name {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-message {
+            color: white;
+            font-size: 1.15em;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .spoiler-box {
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            border-radius: 16px;
+            padding: 40px 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            margin: 20px 0;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .spoiler-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 255, 255, 0.1));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .spoiler-box:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+        }
+
+        .spoiler-box:hover::before {
+            opacity: 1;
+        }
+
+        .spoiler-box.hidden .spoiler-text {
+            filter: blur(15px);
+            user-select: none;
+        }
+
+        .spoiler-box.hidden::before {
+            content: 'Toca per revelar';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.1em;
+            font-weight: 700;
+            pointer-events: none;
+        }
+
+        .spoiler-text {
+            font-size: 2.3em;
+            font-weight: 800;
+            color: #ffd700;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .gift-icon {
+            font-size: 3.5em;
+            text-align: center;
+            margin: 20px 0 10px 0;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Wishlist */
+        .wishlist-intro {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid rgba(255, 255, 255, 0.5);
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 0.95em;
+            line-height: 1.5;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .wishlist-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .wishlist-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .wishlist-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .wishlist-card:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .wishlist-card:hover::before {
+            opacity: 1;
+        }
+
+        .wishlist-card h3 {
+            color: white;
+            font-size: 1.05em;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .wishlist-card p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 0.95em;
+        }
+
+        .wishlist-empty {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 50px 20px;
+            font-style: italic;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 35px 28px;
+                border-radius: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .header p {
+                font-size: 0.95em;
+            }
+
+            .tab {
+                font-size: 0.85em;
+                padding: 9px 10px;
+            }
+
+            select, input, textarea {
+                font-size: 16px; /* Prevents iOS zoom */
+            }
+
+            .roulette-name {
+                font-size: 1.8em;
+            }
+
+            .spoiler-text {
+                font-size: 1.9em;
+            }
+
+            .gift-icon {
+                font-size: 3em;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 28px 22px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .roulette-name {
+                font-size: 1.6em;
+            }
+
+            .spoiler-text {
+                font-size: 1.7em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app"></div>
+
+    <script>
+        const participants = ['Nalea', 'Bogdan', 'Chanchi', 'Leo', 'Lluc', 'Gaël', 'Èrik', 'Dani', 'Ivan'];
+        
+        function generateAssignments() {
+            let stored = localStorage.getItem('secretSantaAssignments');
+            if (stored) return JSON.parse(stored);
+
+            let shuffled = [...participants];
+            let assignments = {};
+            let attempts = 0;
+
+            while (attempts < 1000) {
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+
+                let valid = true;
+                for (let i = 0; i < participants.length; i++) {
+                    if (participants[i] === shuffled[i]) {
+                        valid = false;
+                        break;
+                    }
+                }
+
+                if (valid) {
+                    for (let i = 0; i < participants.length; i++) {
+                        assignments[participants[i]] = shuffled[i];
+                    }
+                    break;
+                }
+                attempts++;
+            }
+
+            localStorage.setItem('secretSantaAssignments', JSON.stringify(assignments));
+            return assignments;
+        }
+
+        const assignments = generateAssignments();
+
+        class SecretSantaApp {
+            constructor() {
+                this.currentUser = localStorage.getItem('secretSantaUser') || null;
+                this.hasRevealed = localStorage.getItem('secretSantaRevealed') === 'true';
+                this.isSpinning = false;
+                this.currentTab = 'reveal';
+                this.render();
+            }
+
+            selectName(name) {
+                this.currentUser = name;
+                localStorage.setItem('secretSantaUser', name);
+                this.render();
+            }
+
+            switchTab(tab) {
+                this.currentTab = tab;
+                this.render();
+            }
+
+            startRoulette() {
+                if (this.isSpinning) return;
+                this.isSpinning = true;
+                this.render();
+
+                let counter = 0;
+                let currentInterval = 50;
+                const finalName = assignments[this.currentUser];
+
+                const spin = () => {
+                    counter++;
+                    const randomName = participants[Math.floor(Math.random() * participants.length)];
+                    const nameElement = document.querySelector('.roulette-name');
+                    if (!nameElement) return;
+                    
+                    nameElement.textContent = randomName;
+
+                    if (counter < 20) currentInterval = 50;
+                    else if (counter < 30) currentInterval = 100;
+                    else if (counter < 35) currentInterval = 200;
+                    else if (counter < 38) currentInterval = 400;
+
+                    if (counter >= 38) {
+                        nameElement.textContent = finalName;
+                        nameElement.style.animation = 'none';
+                        nameElement.style.transform = 'scale(1.15)';
+                        
+                        setTimeout(() => {
+                            this.revealResult();
+                        }, 1500);
+                    } else {
+                        setTimeout(spin, currentInterval);
+                    }
+                };
+
+                spin();
+            }
+
+            revealResult() {
+                this.hasRevealed = true;
+                localStorage.setItem('secretSantaRevealed', 'true');
+                this.render();
+            }
+
+            toggleSpoiler() {
+                const spoilerBox = document.querySelector('.spoiler-box');
+                if (spoilerBox) spoilerBox.classList.toggle('hidden');
+            }
+
+            saveWishlist() {
+                const wishes = document.getElementById('wishlistInput').value.trim();
+                if (!wishes) {
+                    alert('Escriu alguna cosa primer!');
+                    return;
+                }
+
+                const wishlists = JSON.parse(localStorage.getItem('secretSantaWishlists') || '{}');
+                wishlists[this.currentUser] = wishes;
+                localStorage.setItem('secretSantaWishlists', JSON.stringify(wishlists));
+
+                alert('Llista guardada correctament!');
+                this.switchTab('wishlist');
+            }
+
+            renderTabs() {
+                if (!this.currentUser) return '';
+
+                return `
+                    <div class="tabs">
+                        <button class="tab ${this.currentTab === 'reveal' ? 'active' : ''}" onclick="app.switchTab('reveal')">
+                            Revelar
+                        </button>
+                        <button class="tab ${this.currentTab === 'wishlist' ? 'active' : ''}" onclick="app.switchTab('wishlist')">
+                            Desitjos
+                        </button>
+                        <button class="tab ${this.currentTab === 'mywish' ? 'active' : ''}" onclick="app.switchTab('mywish')">
+                            Els meus
+                        </button>
+                    </div>
+                `;
+            }
+
+            renderRevealTab() {
+                if (!this.hasRevealed && !this.isSpinning) {
+                    return `
+                        <div class="tab-content active">
+                            <div class="header">
+                                <h1>🎄 Amic Invisible 🎁</h1>
+                                <p>Descobreix qui et toca!</p>
+                            </div>
+                            <div class="locked-name">Hola, ${this.currentUser}!</div>
+                            <button class="btn" onclick="app.startRoulette()">Descobrir el meu amic invisible</button>
+                        </div>
+                    `;
+                } else if (this.isSpinning) {
+                    return `
+                        <div class="tab-content active">
+                            <div class="header">
+                                <h1>🎄 Amic Invisible 🎁</h1>
+                            </div>
+                            <div class="roulette-window">
+                                <div class="roulette-name">${participants[0]}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    const assignedPerson = assignments[this.currentUser];
+                    return `
+                        <div class="tab-content active">
+                            <div class="header">
+                                <h1>🎄 Amic Invisible 🎁</h1>
+                            </div>
+                            <div class="locked-name">${this.currentUser}</div>
+                            <p class="result-message">El teu amic invisible és...</p>
+                            <div class="spoiler-box hidden" onclick="app.toggleSpoiler()">
+                                <div class="spoiler-text">${assignedPerson}</div>
+                            </div>
+                            <div class="gift-icon">🎁</div>
+                        </div>
+                    `;
+                }
+            }
+
+            renderWishlistTab() {
+                const wishlists = JSON.parse(localStorage.getItem('secretSantaWishlists') || '{}');
+                const wishlistEntries = participants
+                    .filter(person => wishlists[person])
+                    .map(person => ({ person, wishes: wishlists[person] }));
+
+                return `
+                    <div class="tab-content ${this.currentTab === 'wishlist' ? 'active' : ''}">
+                        <div class="header">
+                            <h1>Llista de Desitjos</h1>
+                            <p>Idees de regals de tothom</p>
+                        </div>
+                        ${wishlistEntries.length > 0 ? `
+                            <div class="wishlist-intro">
+                                Aquí pots veure què li agradaria a cada persona. Serveix com a inspiració per al teu regal!
+                            </div>
+                            <div class="wishlist-grid">
+                                ${wishlistEntries.map(({ person, wishes }) => `
+                                    <div class="wishlist-card">
+                                        <h3>${person}</h3>
+                                        <p>${wishes}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : `
+                            <div class="wishlist-empty">
+                                Encara no hi ha cap llista de desitjos.<br>
+                                Sigues el primer en compartir la teva!
+                            </div>
+                        `}
+                    </div>
+                `;
+            }
+
+            renderMyWishTab() {
+                const wishlists = JSON.parse(localStorage.getItem('secretSantaWishlists') || '{}');
+                const myWishes = wishlists[this.currentUser] || '';
+
+                return `
+                    <div class="tab-content ${this.currentTab === 'mywish' ? 'active' : ''}">
+                        <div class="header">
+                            <h1>Els Meus Desitjos</h1>
+                            <p>Comparteix les teves idees</p>
+                        </div>
+                        <div class="wishlist-intro">
+                            Escriu algunes idees de regals que t'agradaria rebre. Això ajudarà al teu amic invisible a triar millor!
+                        </div>
+                        <div class="form-group">
+                            <label for="wishlistInput">Què t'agradaria rebre?</label>
+                            <textarea 
+                                id="wishlistInput" 
+                                placeholder="Exemples: llibres de ciència-ficció, auriculars sense cables, material d'escalada, jocs de taula..."
+                            >${myWishes}</textarea>
+                        </div>
+                        <button class="btn" onclick="app.saveWishlist()">Guardar la meva llista</button>
+                    </div>
+                `;
+            }
+
+            render() {
+                const app = document.getElementById('app');
+
+                if (!this.currentUser) {
+                    app.innerHTML = `
+                        <div class="header">
+                            <h1>🎄 Amic Invisible 🎁</h1>
+                            <p>Benvingut/da!</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="nameSelect">Qui ets?</label>
+                            <select id="nameSelect">
+                                <option value="">-- Selecciona el teu nom --</option>
+                                ${participants.map(name => `<option value="${name}">${name}</option>`).join('')}
+                            </select>
+                        </div>
+                        <button class="btn" id="confirmBtn" disabled>Entrar</button>
+                    `;
+
+                    const select = document.getElementById('nameSelect');
+                    const btn = document.getElementById('confirmBtn');
+
+                    select.addEventListener('change', (e) => {
+                        btn.disabled = !e.target.value;
+                    });
+
+                    btn.addEventListener('click', () => {
+                        this.selectName(select.value);
+                    });
+                } else {
+                    app.innerHTML = `
+                        ${this.renderTabs()}
+                        ${this.currentTab === 'reveal' ? this.renderRevealTab() : ''}
+                        ${this.currentTab === 'wishlist' ? this.renderWishlistTab() : ''}
+                        ${this.currentTab === 'mywish' ? this.renderMyWishTab() : ''}
+                    `;
+                }
+            }
+        }
+
+        const app = new SecretSantaApp();
+    </script>
+</body>
+</html>
